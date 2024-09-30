@@ -2,8 +2,14 @@
 
 Ce projet utilise un modèle W2V2 et une suite de scripts pour effectuer des prédictions de la nasalité sur l'ensemble des productions de parole.
 
+## Installation des bibliothèques
 
-## Utilisation
+
+```python
+pip install -r requirements.txt
+```
+
+## Exécution du script
 
 Pour exécuter le projet, utilisez le script **Bash** qui orchestre toutes les étapes nécessaires pour traiter les fichiers audio, les phonetiser, et faire des prédictions. Voici la commande à exécuter :
 
