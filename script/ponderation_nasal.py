@@ -3,11 +3,15 @@ import phonetisation as phon
 import pandas as pd
 from pathlib import Path
 from speechbrain.inference.ASR import EncoderASR
+import logging
+
+logging.getLogger('speechbrain').setLevel(logging.ERROR)
+
 
 
 def get_mean_nasal(loc, col="proba_nasal"):
     # Ouvrir un fichier csv pour calculer la moyenne des proba nasal 
-    file = f"./data/csv/{loc}_4.csv"
+    file = f"./data/csv/{loc}.csv"
     df = pd.read_csv(file)
     
     if col in df.columns:
@@ -43,8 +47,8 @@ def transcription_phonemes(audio_path, asr_model):
     phonemes = phon.split_phonemes(api_transcription)
 
     nb_phonemes = get_nb_nasal_oral(phonemes)
-    # print(f"Nombre de nasales présentes dans l'audio : {nb_phonemes[0]}")
-    # print(f"Nombre d'orales présentes dans l'audio : {nb_phonemes[1]}")
+    print(f"Nombre de nasales présentes dans l'audio : {nb_phonemes[0]}")
+    print(f"Nombre d'orales présentes dans l'audio : {nb_phonemes[1]}")
 
     return nb_phonemes
 

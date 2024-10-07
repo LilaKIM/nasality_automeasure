@@ -1,5 +1,4 @@
 from pathlib import Path
-import logging
 
 import librosa
 import torch
@@ -10,13 +9,17 @@ import pandas as pd
 
 from transformers import (
     Wav2Vec2Processor,
-    Wav2Vec2ForCTC,
+    Wav2Vec2ForCTC
 )
 
 from typing import Tuple
 
 import argparse
+import warnings
 
+from transformers import logging
+logging.set_verbosity_error()
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # ---------------------------------------------------
 
@@ -41,7 +44,7 @@ def load_xlsr53_model(model_name: str, device: str = "auto") -> Tuple[Wav2Vec2Fo
 
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        print (device)
+        # print (device)
     
     ofile = tempfile.NamedTemporaryFile("wt")
     json.dump({"[UNK]": "0", "[PAD]": "1"}, ofile)
@@ -65,7 +68,7 @@ def load_xlsr53_model(model_name: str, device: str = "auto") -> Tuple[Wav2Vec2Fo
     # xlsr_model = HubertForCTC.from_pretrained(model_name).to(
         device
     )
-    print("Chargement du modèle", model_name)
+    # print("Chargement du modèle", model_name)
     return xlsr_model, xlsr_processor
 
 
@@ -194,9 +197,9 @@ def load_corpus(
     corpus["filename"] = corpus["filename_path"].apply(lambda x: x.name)
     
 
-    logging.info(f"loaded {corpus.shape[0]:,} files")
+    # logging.info(f"loaded {corpus.shape[0]:,} files")
 
-    logging.info(f"{corpus.shape[0]:,} files after filtering")
+    # logging.info(f"{corpus.shape[0]:,} files after filtering")
     
     # dataframe création de 2 nouvelles colonnes : audio = fenetre extraite et degradée + mono. encoded_audio = chargement de la représentation du fichier (vecteur) 
     # chargement de la fenetre, conversion en 16000hz, mono
@@ -228,13 +231,13 @@ def create_representation(audio_path, model_name, what_hidden=0, path_results=".
     liste_dossiers = [dossier for dossier in path_all_dir.iterdir() if dossier.is_dir()]
 
     for path in liste_dossiers:
-        print ('Lancement de load_corpus....')
+        print ('Lancement de load_corpus....', path.resolve())
         df = load_corpus(path.resolve())
         # print(df)
         
-        print ('Chargement du modèle et création de la représentation des audio....')
+        # print ('Chargement du modèle et création de la représentation des audio....')
         xlsr_model, xlsr_processor = load_xlsr53_model(model_name)
-        print("Encodage de l'audio à hidden state", what_hidden)
+        # print("Encodage de l'audio à hidden state", what_hidden)
         df["encoded_audio"] = df["audio"].apply(lambda x: get_xlsr_representation(x, xlsr_processor, xlsr_model, what_hidden=what_hidden))
 
         
@@ -245,7 +248,7 @@ def create_representation(audio_path, model_name, what_hidden=0, path_results=".
         
         import pickle
         verifie_dossier(path_results)
-        pickle.dump(df, open(f"{path_results}{path.name}_{str(what_hidden)}.pkl", "wb"))
+        pickle.dump(df, open(f"{path_results}{path.name}.pkl", "wb"))
         
         print ('Enregistrement du dataframe....')   
     
