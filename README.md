@@ -50,7 +50,7 @@ mon_projet/
 ├── main_script.sh                # Script Bash principal pour exécuter le traitement
 ├── script/                       # Dossier contenant les scripts de traitement
 │   ├── decoupe_audio_4s.praat    # Script Praat pour découper les fichiers audio en séquences de 4 secondes
-│   ├── decoupe_audio.praat       # Script Praat pour le découpage initial des fichiers audio
+│   ├── decoupe_audio.praat       # Script Praat pour le découpage des fichiers audio avec une fenêtre glissante de 50 ms
 │   ├── get_representation_w2v.py # Script Python pour extraire des représentations vectorielles
 │   ├── phonetisation.py          # Script Python pour la transcription phonétique
 │   ├── ponderation_nasal.py      # Script Python pour appliquer une pondération sur les phonèmes nasaux
@@ -61,7 +61,9 @@ mon_projet/
 │   ├── audio_decoupe/            # Fichiers audio découpés après traitement
 │   ├── csv/                      # Résultats des prédictions stockés sous forme de fichiers CSV
 │   └── vectors/                  # Représentations vectorielles extraites
-└── README.md                     # Ce fichier
+├── requirements.txt              # Fichier listant toutes les dépendances Python nécessaires au projet
+├── nasalite_ponderee.txt         # Fichier de sortie contenant le score de nasalité pondéré des fichiers audio traités
+└── README.md                     # Ce fichier d'information sur le projet
 ```
 
 ### Dépendances
