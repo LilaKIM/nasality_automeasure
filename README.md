@@ -16,12 +16,12 @@ Produit un indice de nasalité pour l'ensemble d'un fichier audio (non découpé
 
 ### 2. Spécifier le Chemin des Données
 ```bash
-bash main_script.sh --path=YOUR/PATH
+bash main_script.sh --path=PATH/TO/DATA
 ```
 Permet de spécifier un chemin personnalisé vers les données audio.
 Calcule un score de nasalité pour chaque fichier audio dans le répertoire spécifié, sans découpage des fichiers.
 #### Paramètre :
---path=YOUR/PATH : Remplacez YOUR/PATH par le chemin absolu ou relatif vers votre dossier contenant les fichiers audio.
+--path=PATH/TO/DATA : Remplacez PATH/TO/DATA par le chemin absolu ou relatif vers votre dossier contenant les fichiers audio.
 
 ### 3. Découper les Fichiers Audio en Séquences de 4 Secondes
 ```bash
@@ -35,9 +35,9 @@ Le découpage est aléatoire, offrant une analyse plus fine des segments courts.
 
 ### 4. Spécifier un Chemin et Découper en Séquences de 4 Secondes
 ```bash
-bash main_script.sh --path=YOUR/PATH --nb=5
+bash main_script.sh --path=PATH/TO/DATA --nb=5
 ```
-Utilise les fichiers audio situés dans le répertoire YOUR/PATH.
+Utilise les fichiers audio situés dans le répertoire PATH/TO/DATA.
 Les fichiers sont ensuite découpés en séquences de 4 secondes, en fonction du nombre spécifié.
 #### Paramètres :
 
@@ -93,7 +93,7 @@ bash main_script.sh
 
 Pour spécifier un autre répertoire d'audio et découper les fichiers en segments de 4 secondes (par exemple 5 segments par fichier) :
 ```bash
-bash main_script.sh --path=YOUR/PATH --nb=5
+bash main_script.sh --path=PATH/TO/DATA --nb=5
 ```
 
 ### Auteurs
