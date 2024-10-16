@@ -1,9 +1,9 @@
+import logging
 import argparse
-import phonetisation as phon
 import pandas as pd
 from pathlib import Path
+import phonetisation as phon
 from speechbrain.inference.ASR import EncoderASR
-import logging
 
 logging.getLogger('speechbrain').setLevel(logging.ERROR)
 
@@ -73,15 +73,18 @@ def charger_modele(chemin_modele):
     model = EncoderASR.from_hparams(source=f"speechbrain/{chemin_modele}", savedir=f"pretrained_models/{chemin_modele}")
     return model
 
+
 def main(args):
     # Pondérer la moyenne et le nombre des nasales
     asr_model = charger_modele(args.modele)
     path_all_dir = args.audio_path
+    print(path_all_dir)
     df = load_corpus(path_all_dir, asr_model)
-    # print(df)
 
     df["mean"] = df["locuteur"].apply(lambda x: get_mean_nasal(x, "proba_nasal"))
-    df["mean_ponderee"] = df.apply(lambda row: row["mean"]/row["nb_nasal"], axis=1)
+    # print(df)
+    df["nasalite_ponderee"] = df.apply(lambda row: row["mean"] / row["nb_nasal"] if row["nb_nasal"] != 0 else "NA", axis=1)
+    df["nasalite_ponderee_pourcentage"] = df.apply(lambda row: row["mean"] / (row["nb_nasal"]/(row["nb_nasal"] + row["nb_oral"])) if row["nb_nasal"] != 0 else row["mean"] / 0.01, axis=1)
     
     # print(df)
 

@@ -38,8 +38,9 @@ elif [[ -n "$nb_extrait" && -z "$path" ]]; then
     praat --run "./script/decoupe_audio.praat" "../data/audio_4s/"
 
 else
-    path="./data/audio_original/"
+    path="../data/audio_original/"
     praat --run "./script/decoupe_audio.praat" $path
+    path="./data/audio_original/"
 fi
 
 python ./script/get_representation_w2v.py --audio_path "./data/audio_decoupe" --model_name $model_name --hidden_state 4
