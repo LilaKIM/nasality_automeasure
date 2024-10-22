@@ -6,30 +6,30 @@ import subprocess
 
 
 
-def transcribe_audio_fr(file_path):
-    # Charger le processeur et le modèle Wav2Vec2 pour le français
-    processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-large-xlsr-53-french")
-    model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-xlsr-53-french")
+# def transcribe_audio_fr(file_path):
+#     # Charger le processeur et le modèle Wav2Vec2 pour le français
+#     processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-large-xlsr-53-french")
+#     model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-xlsr-53-french")
 
-    # Charger le fichier audio .wav et convertir en tenseur
-    waveform, sample_rate = torchaudio.load(file_path)
+#     # Charger le fichier audio .wav et convertir en tenseur
+#     waveform, sample_rate = torchaudio.load(file_path)
 
-    # Si l'échantillonnage est différent de celui attendu par le modèle (16000Hz), on le redimensionne
-    if sample_rate != 16000:
-        waveform = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=16000)(waveform)
+#     # Si l'échantillonnage est différent de celui attendu par le modèle (16000Hz), on le redimensionne
+#     if sample_rate != 16000:
+#         waveform = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=16000)(waveform)
 
-    # Préparer les données pour le modèle
-    inputs = processor(waveform.squeeze().numpy(), sampling_rate=16000, return_tensors="pt", padding=True)
+#     # Préparer les données pour le modèle
+#     inputs = processor(waveform.squeeze().numpy(), sampling_rate=16000, return_tensors="pt", padding=True)
 
-    # Effectuer la prédiction sans rétropropagation
-    with torch.no_grad():
-        logits = model(inputs.input_values).logits
+#     # Effectuer la prédiction sans rétropropagation
+#     with torch.no_grad():
+#         logits = model(inputs.input_values).logits
 
-    # Décoder la prédiction en texte
-    predicted_ids = torch.argmax(logits, dim=-1)
-    transcription = processor.batch_decode(predicted_ids)[0]
+#     # Décoder la prédiction en texte
+#     predicted_ids = torch.argmax(logits, dim=-1)
+#     transcription = processor.batch_decode(predicted_ids)[0]
 
-    return transcription
+#     return transcription
 
 
 def transcribe_audio_speechbrain(file_path, model):

@@ -29,7 +29,7 @@ if [[ -n "$path" && "$extrait" == "oui" ]]; then
     praat --run "./script/decoupe_audio.praat" "../data/audio_4s/"
     path="./data/audio_4s"
 
-elif [[ -n "$path" && -z "$nb_extrait" ]]; then
+elif [[ -n "$path" && -z "$extrait" ]]; then
     praat --run "./script/decoupe_audio.praat" $path
 
 else

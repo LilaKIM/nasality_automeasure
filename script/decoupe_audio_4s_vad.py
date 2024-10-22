@@ -25,7 +25,7 @@ def vad(path):
 
     return speech_timestamps
 
-def split_wav(file_path, filename, output_dir, segment_length):
+def split_wav(file_path, filename, output_dir, nb_extrait, segment_length):
     """
     Coupe les segments audio détectés par la fonction VAD (zones de parole).
     Ne coupe que les zones de parole qui sont plus longues que segment_length (en secondes).
@@ -38,7 +38,6 @@ def split_wav(file_path, filename, output_dir, segment_length):
 
     for speech in speech_timestamps:
         start_time, end_time = speech['start'], speech['end']
-        # print(start_time, end_time, segment_length)
         
         if end_time - start_time >= segment_length:
             end_time = start_time + 4
@@ -52,8 +51,11 @@ def split_wav(file_path, filename, output_dir, segment_length):
 
             segment_index += 1
 
+            if nb_extrait is not None and segment_index >= nb_extrait:
+                break
 
-def main(arg, segment_length=4, output_dir="./data/audio_4s"):
+
+def main(arg, output_dir="./data/audio_4s"):
     """
     Lit tous les fichiers WAV d'un répertoire et applique la fonction split_wav à chacun.
     """
@@ -66,8 +68,10 @@ def main(arg, segment_length=4, output_dir="./data/audio_4s"):
             print(f"Traitement du fichier : {file_path}")
             filename = os.path.splitext(filename)[0]
             # print(filename)
+            if arg.nb_extrait is None: arg.nb_extrait = 4
+            if arg.length is None: arg.length = 4
 
-            split_wav(file_path, filename, output_dir, segment_length)
+            split_wav(file_path, filename, output_dir, arg.length, arg.nb_extrait)
 
 
 
@@ -75,7 +79,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()     
 
     parser.add_argument("--input_dir", type=str, required=True)
-    # parser.add_argument('--length', type=int, required=False)
+    parser.add_argument("--nb_extrait", type=int, required=False)
+    parser.add_argument('--length', type=int, required=False)
 
     args = parser.parse_args()             
 
