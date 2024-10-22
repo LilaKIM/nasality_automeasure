@@ -237,6 +237,7 @@ def create_representation(audio_path, model_name, what_hidden=0, path_results=".
         
         # print ('Chargement du modèle et création de la représentation des audio....')
         xlsr_model, xlsr_processor = load_xlsr53_model(model_name)
+        
         # print("Encodage de l'audio à hidden state", what_hidden)
         df["encoded_audio"] = df["audio"].apply(lambda x: get_xlsr_representation(x, xlsr_processor, xlsr_model, what_hidden=what_hidden))
 
