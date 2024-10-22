@@ -23,17 +23,7 @@ Calcule un score de nasalité pour chaque fichier audio dans le répertoire spé
 #### Paramètre :
 --path=PATH/TO/DATA : Remplacez PATH/TO/DATA par le chemin absolu ou relatif vers votre dossier contenant les fichiers audio.
 
-### 3. Découper les Fichiers Audio en Séquences de 4 Secondes (en cours de travaux)
-```bash
-bash main_script.sh --cut=oui
-```
-Utilise les données du répertoire ./data/audio_original et les découpe en séquences de 4 secondes.
-Le nombre fourni correspond au nombre de séquences de 4 secondes extraites de chaque fichier audio.
-Le découpage est aléatoire, offrant une analyse plus fine des segments courts.
-#### Paramètre :
---nb=5 : Remplacez 5 par le nombre de séquences de 4 secondes que vous souhaitez extraire de chaque fichier audio.
-
-### 4. Spécifier un Chemin et Découper en Séquences de 4 Secondes
+### 3. Spécifier un Chemin et Découper en Séquences de 4 Secondes
 ```bash
 bash main_script.sh --path=PATH/TO/DATA --cut=oui
 ```
