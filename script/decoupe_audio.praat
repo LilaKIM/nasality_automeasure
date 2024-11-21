@@ -2,7 +2,7 @@ form Extraction dossier audio
     text dossier_audio ../data/audio_original/
 endform
 
-generatedFolder$ = "../data/audio_decoupe/"
+generatedFolder$ = "/media/lila/Lila/data/audio_decoupe/"
 createDirectory: generatedFolder$
 
 regex_chemin_vers_wav$ = dossier_audio$ + "*.wav"

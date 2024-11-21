@@ -1,5 +1,7 @@
 import argparse
 import pickle
+import random
+import shutil
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -35,7 +37,6 @@ def proba2csv(y_pred, fileNames, loc):
         score["duree"] = fileNames[i].split("_")[-1][:-4]
         score["filename"] = fileNames[i]
         resultat[i+1] = score
-
     return getCSV(resultat, f"./data/csv/{loc}.csv")
 
 
@@ -57,6 +58,39 @@ def charger_modele():
     # # model = model.export("lilakim/w2v2_nasality_automeasure")
     # model = keras.saving.load_model("hf://lilakim/w2v2_nasality_automeasure")
     return model
+
+
+def select_random_files(directory, num_files):
+    # Sélectionne un certain nombre de fichiers aléatoires depuis un répertoire.
+
+    dir_path = Path(directory)
+    all_files = [file for file in dir_path.iterdir() if file.is_file()]
+
+    if len(all_files) < num_files:
+        raise ValueError(f"Le répertoire contient seulement {len(all_files)} fichiers, mais {num_files} sont demandés.")
+
+    selected_files = random.sample(all_files, num_files)
+    move_matching_files(selected_files)
+
+    return selected_files
+
+
+def move_matching_files(selected_files, source_dir="./data/audio_4s/", temp_dir="./data/audio_4s_temp/"):
+    # Déplace les fichiers avec le même nom que dans `selected_files` (extension .wav) depuis `source_dir` vers `temp_dir`.
+    source_path = Path(source_dir)
+    temp_path = Path(temp_dir)
+
+    if not temp_path.exists():
+        temp_path.mkdir(parents=True)
+
+    for file in selected_files:
+        source_file = source_path / f"{file.stem}.wav"
+
+        if source_file.exists():
+            shutil.copy(str(source_file), str(temp_path / source_file.name))
+            print(f"Fichier déplacé : {source_file} -> {temp_path}")
+        else:
+            print(f"Fichier introuvable dans le répertoire source : {source_file}")
 
 
 def obtenir_fichiers(repertoire):
@@ -91,8 +125,10 @@ def get_predictions(model, fichiers):
 def main(args):
     # Charger le modèle avec le chemin fourni
     model = charger_modele()
-    fichiers = obtenir_fichiers(args.repertoire)
 
+    if args.num_file: fichiers = select_random_files(args.repertoire, args.num_file)
+    else: fichiers = obtenir_fichiers(args.repertoire)
+    
     get_predictions(model, fichiers)
 
 
@@ -100,9 +136,8 @@ if __name__ == "__main__":
     # Définir l'analyseur d'arguments
 
     parser = argparse.ArgumentParser()
-
-    # parser.add_argument('--modele', type=str, required=True, help="Chemin vers le fichier du modèle Keras à charger.")
     parser.add_argument('--repertoire', type=str, required=True, help="Chemin vers le répertoire contenant les fichiers de vecteurs.")
+    parser.add_argument('--num_file', type=int, required=False)
 
     args = parser.parse_args()
 

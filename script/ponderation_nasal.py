@@ -38,17 +38,17 @@ def get_nb_nasal_oral(phonemes):
 def transcription_phonemes(audio_path, asr_model):
     # Transcriptions orthographique et phonétique pour obtenir le nombre des nasales et orales
     text_to_phonemize = phon.transcribe_audio_speechbrain(audio_path, asr_model)
-    print(f"Transcription orthographique : {text_to_phonemize}")
+    # print(f"Transcription orthographique : {text_to_phonemize}")
 
     # Transcription en API
     api_transcription = phon.transcribe_to_api(text_to_phonemize)
-    print(f"Transcription en API : {api_transcription}")
+    # print(f"Transcription en API : {api_transcription}")
 
     phonemes = phon.split_phonemes(api_transcription)
 
     nb_phonemes = get_nb_nasal_oral(phonemes)
-    print(f"Nombre de nasales présentes dans l'audio : {nb_phonemes[0]}")
-    print(f"Nombre d'orales présentes dans l'audio : {nb_phonemes[1]}")
+    # print(f"Nombre de nasales présentes dans l'audio : {nb_phonemes[0]}")
+    # print(f"Nombre d'orales présentes dans l'audio : {nb_phonemes[1]}")
 
     return nb_phonemes
 
@@ -92,7 +92,7 @@ def main(args):
     df = df.drop("filename", axis=1)
     df = df.drop("mean", axis=1)
 
-    df.to_csv("./nasalite_ponderee", sep=',', encoding='utf-8', index=False, header=True)
+    df.to_csv("./nasalite_ponderee", sep=',', encoding='utf-8', index=False, header=True, mode='a')
 
 
 

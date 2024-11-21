@@ -1,6 +1,6 @@
 form Extraction dossier audio
-    text dossier_audio /media/lila/T7 Shield1/ptsvox/test_praat/
-    real nb_extrait 10
+    text dossier_audio ../data/audio_original/
+    real tAdd 4
 endform
 
 generatedFolder$ = "../data/audio_4s/"
@@ -9,7 +9,7 @@ createDirectory: generatedFolder$
 regex_chemin_vers_wav$ = dossier_audio$ + "*.wav"
 filesList = Create Strings as file list: "fileslist", regex_chemin_vers_wav$
 nfiles = Get number of strings
-
+nb_extrait = 10
 for ifile to nfiles
     selectObject:filesList
 	nomFichierWav$ = Get string: ifile
@@ -23,7 +23,6 @@ for ifile to nfiles
     tEnd = Get end time
     tEndInt = round (tEnd - 5)
     # pause 'tEnd', 'tEndInt'
-    tAdd = 4
     ct = 0
     temp = 0
     repeat
