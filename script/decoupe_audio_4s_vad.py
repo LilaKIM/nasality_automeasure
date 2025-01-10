@@ -108,6 +108,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--input_dir", type=str, required=True, help="Répertoire contenant les fichiers WAV.")
     parser.add_argument("--length", type=int, required=False, help="Longueur de chaque segment en secondes.")
+    parser.add_argument("--output_dir", type=str, required=False)
 
     args = parser.parse_args()
 

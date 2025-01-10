@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 import pandas as pd
@@ -91,8 +92,9 @@ def main(args):
     df = df.drop("filename_path", axis=1)
     df = df.drop("filename", axis=1)
     df = df.drop("mean", axis=1)
+    today = time.strftime("%Y-%m-%d")
 
-    df.to_csv("./nasalite_ponderee", sep=',', encoding='utf-8', index=False, header=True, mode='a')
+    df.to_csv(f"./nasalite_ponderee_{today}", sep=',', encoding='utf-8', index=False, header=True, mode='w')
 
 
 

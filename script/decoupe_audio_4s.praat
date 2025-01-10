@@ -1,5 +1,5 @@
 form Extraction dossier audio
-    text dossier_audio ../data/audio_original/
+    text dossier_audio ./audio_original/
     real tAdd 4
 endform
 

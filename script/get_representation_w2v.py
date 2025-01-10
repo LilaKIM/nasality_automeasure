@@ -122,9 +122,12 @@ def get_xlsr_representation(
 
         # print(len(embeddings), embeddings, "_______________________________")
         # print(len(embeddings[0]), embeddings[0])
-        # print(len(embeddings[0][0]))
+        # print(embeddings[0][0])
 
         # XXX add a "none" strategy
+        # print(embeddings)
+        # print(embeddings[0])
+
         if pooling == "max":
             speech_representation = embeddings[0].max(axis=0).values
         elif pooling == "mean":
@@ -133,7 +136,8 @@ def get_xlsr_representation(
             speech_representation = embeddings[0].sum(axis=0)
         else:
             raise Exception
-
+        # print(speech_representation)
+        # exit()
         # print(speech_representation)
 
         
